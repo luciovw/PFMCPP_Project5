@@ -247,7 +247,6 @@ struct Computer
 {
     CodingLanguage language1{5000};
     Computer();
-    Computer(CodingLanguage& lang);
     ~Computer();
 
     void changeNumDataTypes(int newNumDataTypes);
@@ -271,12 +270,6 @@ Computer::Computer()
     //Default constructor
 }
 
-Computer::Computer(CodingLanguage& lang)
-{
-    lang.numPunctuationTypes = lang.numPunctuationTypes * 2;
-    std::cout << "2 times as many punctuation types." << std::endl;
-}
-
 Computer::~Computer()
 {
     std::cout << "Are you sure you want to shutdown?" << std::endl;
@@ -291,7 +284,6 @@ struct GuitarRoom
     ElectricGuitar eGuitar{1};
     AudioApplication guitarPedal{4};
     GuitarRoom();
-    GuitarRoom(ElectricGuitar& guitar);
     ~GuitarRoom();
 
     void modifyPickups(int newNumPickUps);
@@ -314,14 +306,7 @@ GuitarRoom::GuitarRoom()
 {
     eGuitar.volumeKnobValue = 0;
 }
-GuitarRoom::GuitarRoom(ElectricGuitar& guitar)
-{
-    if(guitar.numStrings !=6)
-    {
-        guitar.numStrings = 6;
-    }
-    std::cout << "Restrung!" << std::endl;
-}
+
 GuitarRoom::~GuitarRoom()
 {
     eGuitar.volumeKnobValue = 0;
@@ -367,11 +352,11 @@ int main()
 
     //New Additions to main
 
-    Computer compy (compy.language1);
+    Computer compy;
     compy.changeNumDataTypes(4);
     compy.changeNumOperatorTypes(9);
 
-    GuitarRoom guitarAndPedal(guitarAndPedal.eGuitar);
+    GuitarRoom guitarAndPedal;
     guitarAndPedal.modifyPickups(3);
     guitarAndPedal.turnRatioKnob(6);
 
