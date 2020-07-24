@@ -280,6 +280,9 @@ struct Computer
 
     void changeNumDataTypes(int newNumDataTypes);
     void changeNumOperatorTypes(int newNumOperatorTypes);
+
+    void changeNumDataTypesThis(int numDataTypes);
+    void changeNumOperatorTypesThis(int numOperatorTypes);
 };
 
 void Computer::changeNumDataTypes(int newNumDataTypes)
@@ -291,6 +294,18 @@ void Computer::changeNumDataTypes(int newNumDataTypes)
 void Computer::changeNumOperatorTypes(int newNumOperatorTypes)
 {
     language1.numOperatorTypes = newNumOperatorTypes;
+    std::cout << "New number of operator types: " << language1.numOperatorTypes << std::endl;
+}
+
+void Computer::changeNumDataTypesThis(int numDataTypes)
+{
+    this -> language1.numDataTypes = numDataTypes;
+    std::cout << "New number of data types: " << language1.numDataTypes << std::endl;
+}
+
+void Computer::changeNumOperatorTypesThis(int numOperatorTypes)
+{
+    this -> language1.numOperatorTypes = numOperatorTypes;
     std::cout << "New number of operator types: " << language1.numOperatorTypes << std::endl;
 }
 
@@ -317,6 +332,9 @@ struct GuitarRoom
 
     void modifyPickups(int newNumPickUps);
     void turnRatioKnob(int newRatio);
+
+    void modifyPickupsThis(int numPickUps);
+    void turnRatioKnobThis(int ratio);
 };
 
 void GuitarRoom::modifyPickups(int newNumPickUps)
@@ -331,9 +349,21 @@ void GuitarRoom::turnRatioKnob(int newRatio)
     std::cout << "New compression ratio: " << guitarPedal.initRatio << std::endl;
 }
 
+void GuitarRoom::modifyPickupsThis(int numPickUps)
+{
+    this -> eGuitar.numPickUps = numPickUps;
+    std::cout << "New number of guitar Pickups: " << eGuitar.numPickUps << std::endl;
+}
+
+void GuitarRoom::turnRatioKnobThis(int ratio)
+{
+    this->guitarPedal.initRatio = ratio;
+    std::cout << "New compression ratio: " << guitarPedal.initRatio << std::endl;
+}
+
 GuitarRoom::GuitarRoom()
 {
-    eGuitar.volumeKnobValue = 0;
+    eGuitar.volumeKnobValue = 10;
 }
 
 GuitarRoom::~GuitarRoom()
@@ -388,6 +418,12 @@ int main()
     GuitarRoom guitarAndPedal;
     guitarAndPedal.modifyPickups(3);
     guitarAndPedal.turnRatioKnob(6);
+
+    compy.changeNumDataTypesThis(6);
+    compy.changeNumOperatorTypesThis(11);
+
+    guitarAndPedal.modifyPickupsThis(5);
+    guitarAndPedal.turnRatioKnobThis(8);
 
     std::cout << "good to go!" << std::endl;
 }
