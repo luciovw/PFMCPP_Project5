@@ -299,14 +299,14 @@ void Computer::changeNumOperatorTypes(int newNumOperatorTypes)
 
 void Computer::changeNumDataTypesThis(int numDataTypes)
 {
-    this -> language1.numDataTypes = numDataTypes;
-    std::cout << "New number of data types: " << language1.numDataTypes << std::endl;
+    this->language1.numDataTypes = numDataTypes;
+    std::cout << "New number of data types: " << this->language1.numDataTypes << std::endl;
 }
 
 void Computer::changeNumOperatorTypesThis(int numOperatorTypes)
 {
-    this -> language1.numOperatorTypes = numOperatorTypes;
-    std::cout << "New number of operator types: " << language1.numOperatorTypes << std::endl;
+    this->language1.numOperatorTypes = numOperatorTypes;
+    std::cout << "New number of operator types: " << this->language1.numOperatorTypes << std::endl;
 }
 
 Computer::Computer()
@@ -351,14 +351,14 @@ void GuitarRoom::turnRatioKnob(int newRatio)
 
 void GuitarRoom::modifyPickupsThis(int numPickUps)
 {
-    this -> eGuitar.numPickUps = numPickUps;
-    std::cout << "New number of guitar Pickups: " << eGuitar.numPickUps << std::endl;
+    this->eGuitar.numPickUps = numPickUps;
+    std::cout << "New number of guitar Pickups: " << this->eGuitar.numPickUps << std::endl;
 }
 
 void GuitarRoom::turnRatioKnobThis(int ratio)
 {
     this->guitarPedal.initRatio = ratio;
-    std::cout << "New compression ratio: " << guitarPedal.initRatio << std::endl;
+    std::cout << "New compression ratio: " << this->guitarPedal.initRatio << std::endl;
 }
 
 GuitarRoom::GuitarRoom()
@@ -410,6 +410,7 @@ int main()
     audioProcessor.runAudio(10, 4);
 
     //New Additions to main
+    std::cout << "\nnew additions to main: " << std::endl;
 
     Computer compy;
     compy.changeNumDataTypes(4);
@@ -419,11 +420,27 @@ int main()
     guitarAndPedal.modifyPickups(3);
     guitarAndPedal.turnRatioKnob(6);
 
-    compy.changeNumDataTypesThis(6);
-    compy.changeNumOperatorTypesThis(11);
+    //std::cout statements to replicate
+    std::cout << "\ncout statements to replicate: " << std::endl;
 
-    guitarAndPedal.modifyPickupsThis(5);
-    guitarAndPedal.turnRatioKnobThis(8);
+    std::cout << "New number of data types: " << compy.language1.numDataTypes << std::endl;
+
+    std::cout << "New number of operator types: " << compy.language1.numOperatorTypes << std::endl;
+
+    std::cout << "New number of guitar Pickups: " << guitarAndPedal.eGuitar.numPickUps << std::endl;
+
+    std::cout << "New compression ratio: " << guitarAndPedal.guitarPedal.initRatio << std::endl;
+
+    //replications with this
+    std::cout <<  "\nstatement replications using this->: " << std::endl;
+
+    compy.changeNumDataTypesThis(4);
+    compy.changeNumOperatorTypesThis(9);
+
+    guitarAndPedal.modifyPickupsThis(3);
+    guitarAndPedal.turnRatioKnobThis(6);
+
+    std::cout << std::endl;
 
     std::cout << "good to go!" << std::endl;
 }
