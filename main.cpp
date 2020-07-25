@@ -280,6 +280,9 @@ struct Computer
 
     void changeNumDataTypes(int newNumDataTypes);
     void changeNumOperatorTypes(int newNumOperatorTypes);
+
+    void changeNumDataTypesThis(int numDataTypes);
+    void changeNumOperatorTypesThis(int numOperatorTypes);
 };
 
 void Computer::changeNumDataTypes(int newNumDataTypes)
@@ -292,6 +295,18 @@ void Computer::changeNumOperatorTypes(int newNumOperatorTypes)
 {
     language1.numOperatorTypes = newNumOperatorTypes;
     std::cout << "New number of operator types: " << language1.numOperatorTypes << std::endl;
+}
+
+void Computer::changeNumDataTypesThis(int numDataTypes)
+{
+    this->language1.numDataTypes = numDataTypes;
+    std::cout << "New number of data types: " << this->language1.numDataTypes << std::endl;
+}
+
+void Computer::changeNumOperatorTypesThis(int numOperatorTypes)
+{
+    this->language1.numOperatorTypes = numOperatorTypes;
+    std::cout << "New number of operator types: " << this->language1.numOperatorTypes << std::endl;
 }
 
 Computer::Computer()
@@ -317,6 +332,9 @@ struct GuitarRoom
 
     void modifyPickups(int newNumPickUps);
     void turnRatioKnob(int newRatio);
+
+    void modifyPickupsThis(int numPickUps);
+    void turnRatioKnobThis(int ratio);
 };
 
 void GuitarRoom::modifyPickups(int newNumPickUps)
@@ -331,9 +349,21 @@ void GuitarRoom::turnRatioKnob(int newRatio)
     std::cout << "New compression ratio: " << guitarPedal.initRatio << std::endl;
 }
 
+void GuitarRoom::modifyPickupsThis(int numPickUps)
+{
+    this->eGuitar.numPickUps = numPickUps;
+    std::cout << "New number of guitar Pickups: " << this->eGuitar.numPickUps << std::endl;
+}
+
+void GuitarRoom::turnRatioKnobThis(int ratio)
+{
+    this->guitarPedal.initRatio = ratio;
+    std::cout << "New compression ratio: " << this->guitarPedal.initRatio << std::endl;
+}
+
 GuitarRoom::GuitarRoom()
 {
-    eGuitar.volumeKnobValue = 0;
+    eGuitar.volumeKnobValue = 10;
 }
 
 GuitarRoom::~GuitarRoom()
@@ -380,6 +410,7 @@ int main()
     audioProcessor.runAudio(10, 4);
 
     //New Additions to main
+    std::cout << "\nnew additions to main: " << std::endl;
 
     Computer compy;
     compy.changeNumDataTypes(4);
@@ -388,6 +419,28 @@ int main()
     GuitarRoom guitarAndPedal;
     guitarAndPedal.modifyPickups(3);
     guitarAndPedal.turnRatioKnob(6);
+
+    //std::cout statements to replicate
+    std::cout << "\ncout statements to replicate: " << std::endl;
+
+    std::cout << "New number of data types: " << compy.language1.numDataTypes << std::endl;
+
+    std::cout << "New number of operator types: " << compy.language1.numOperatorTypes << std::endl;
+
+    std::cout << "New number of guitar Pickups: " << guitarAndPedal.eGuitar.numPickUps << std::endl;
+
+    std::cout << "New compression ratio: " << guitarAndPedal.guitarPedal.initRatio << std::endl;
+
+    //replications with this
+    std::cout <<  "\nstatement replications using this->: " << std::endl;
+
+    compy.changeNumDataTypesThis(4);
+    compy.changeNumOperatorTypesThis(9);
+
+    guitarAndPedal.modifyPickupsThis(3);
+    guitarAndPedal.turnRatioKnobThis(6);
+
+    std::cout << std::endl;
 
     std::cout << "good to go!" << std::endl;
 }
