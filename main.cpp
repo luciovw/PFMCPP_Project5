@@ -49,6 +49,7 @@ You don't have to do this, you can keep your current object name and just change
 
 
 #include <iostream>
+#include "LeakedObjectDetector.h"
 
 /*
  copied UDT 1:
@@ -72,6 +73,7 @@ struct CodingLanguage
     void compileCode(float code);
 
     void addTwo(float initialValue, int timesToAddTwo);
+    JUCE_LEAK_DETECTOR(CodingLanguage)
 };
 
 CodingLanguage::CodingLanguage(int setCompilerBit_Sec)
@@ -115,6 +117,17 @@ void CodingLanguage::addTwo(float initialValue, int timesToAddTwo)
 
     std::cout << "2 added " << timesToAddTwo << " times. New Value = " << initialValue << std::endl;
 }
+
+struct CodingLanguageWrapper
+{
+    CodingLanguageWrapper(CodingLanguage* ptr) : ptr2CodingLanguage( ptr ){}
+    ~CodingLanguageWrapper()
+    {
+        delete ptr2CodingLanguage;
+    }
+    CodingLanguage* ptr2CodingLanguage = nullptr;
+};
+
 /*
  copied UDT 2:
  */
@@ -135,6 +148,7 @@ struct ElectricGuitar
     float brightTone (float noteInfo);
 
     void tuneString(int currentNoteInfo, int targetNote);
+    JUCE_LEAK_DETECTOR(ElectricGuitar)
 };
 
 ElectricGuitar::ElectricGuitar(int numBrokenStrings)
@@ -191,6 +205,17 @@ void ElectricGuitar::tuneString(int currentNoteInfo, int targetNote)
         std::cout << "You're already in tune!!" << std::endl;
     }
 }
+
+struct ElectricGuitarWrapper
+{
+    ElectricGuitarWrapper(ElectricGuitar* ptr) : ptr2ElectricGuitar( ptr ){}
+    ~ElectricGuitarWrapper()
+    {
+        delete ptr2ElectricGuitar;
+    }
+    ElectricGuitar* ptr2ElectricGuitar = nullptr;
+};
+
 /*
  copied UDT 3:
  */
@@ -208,6 +233,8 @@ struct AudioApplication
     float reverberate(float input, float roomSize);
     float semitoneTranspose(float input, int transposeVal);
     void runAudio (float signal, int bufferSize);
+
+    JUCE_LEAK_DETECTOR(AudioApplication)
 };
 
 AudioApplication::AudioApplication(float setDefaultRatio)
@@ -254,6 +281,16 @@ void AudioApplication::runAudio (float signal, int bufferSize)
     std::cout << "Compressed " << bufferSize << " samples of " << signal << std::endl;
 }
 
+struct AudioApplicationWrapper
+{
+    AudioApplicationWrapper(AudioApplication* ptr) : ptr2AudioApplication( ptr ){}
+    ~AudioApplicationWrapper()
+    {
+        delete ptr2AudioApplication;
+    }
+    AudioApplication* ptr2AudioApplication = nullptr;
+};
+
 /*
  new UDT 4:
  with 2 member functions
@@ -269,6 +306,8 @@ struct Computer
 
     void changeNumDataTypesThis(int numDataTypes);
     void changeNumOperatorTypesThis(int numOperatorTypes);
+
+    JUCE_LEAK_DETECTOR(Computer)
 };
 
 void Computer::changeNumDataTypes(int newNumDataTypes)
@@ -305,6 +344,16 @@ Computer::~Computer()
     std::cout << "Are you sure you want to shutdown?" << std::endl;
 }
 
+struct ComputerWrapper
+{
+    ComputerWrapper(Computer* ptr) : ptr2Computer( ptr ){}
+    ~ComputerWrapper()
+    {
+        delete ptr2Computer;
+    }
+    Computer* ptr2Computer = nullptr;
+};
+
 /*
  new UDT 5:
  with 2 member functions
@@ -321,6 +370,8 @@ struct GuitarRoom
 
     void modifyPickupsThis(int numPickUps);
     void turnRatioKnobThis(int ratio);
+
+    JUCE_LEAK_DETECTOR(GuitarRoom)
 };
 
 void GuitarRoom::modifyPickups(int newNumPickUps)
@@ -358,6 +409,16 @@ GuitarRoom::~GuitarRoom()
     std::cout << "That's enough for today, I guess." << std::endl;
 }
 
+struct GuitarRoomWrapper
+{
+    GuitarRoomWrapper(GuitarRoom* ptr) : ptr2GuitarRoom( ptr ){}
+    ~GuitarRoomWrapper()
+    {
+        delete ptr2GuitarRoom;
+    }
+    GuitarRoom* ptr2GuitarRoom = nullptr;
+};
+
 /*
  MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
 
@@ -376,55 +437,57 @@ GuitarRoom::~GuitarRoom()
 int main()
 { 
 
-    CodingLanguage LL(5);
-    LL.createFloatFunction(10.5f, 30.7f);
+    //AxeWrapper axWrapper( new Axe() );
 
-    ElectricGuitar strat(0);
-    strat.warmTone(220);
-    strat.amplifyStringVibration(4, 220);
+    CodingLanguageWrapper LL( new CodingLanguage(5) );
+    LL.ptr2CodingLanguage->createFloatFunction(10.5f, 30.7f);
 
-    AudioApplication compressor1(2);
-    std:: cout << compressor1.compress(3.3f, 5.0f, -22.2f) << " = new signal value!" << std::endl;
+    ElectricGuitarWrapper strat( new ElectricGuitar (0) );
+    strat.ptr2ElectricGuitar->warmTone(220);
+    strat.ptr2ElectricGuitar->amplifyStringVibration(4, 220);
 
-    LL.addTwo(10, 5);
+    AudioApplicationWrapper compressor1( new AudioApplication (2) );
+    std:: cout << compressor1.ptr2AudioApplication->compress(3.3f, 5.0f, -22.2f) << " = new signal value!" << std::endl;
 
-    strat.tuneString(500, 600);
-    strat.tuneString(600, 500);
-    strat.tuneString(600, 600);
+    LL.ptr2CodingLanguage->addTwo(10, 5);
 
-    AudioApplication audioProcessor(7);
-    audioProcessor.runAudio(10, 4);
+    strat.ptr2ElectricGuitar->tuneString(500, 600);
+    strat.ptr2ElectricGuitar->tuneString(600, 500);
+    strat.ptr2ElectricGuitar->tuneString(600, 600);
+
+    AudioApplicationWrapper audioProcessor( new AudioApplication (7) );
+    audioProcessor.ptr2AudioApplication->runAudio(10, 4);
 
     //New Additions to main
     std::cout << "\nnew additions to main: " << std::endl;
 
-    Computer compy;
-    compy.changeNumDataTypes(4);
-    compy.changeNumOperatorTypes(9);
+    ComputerWrapper compy ( new Computer() );
+    compy.ptr2Computer->changeNumDataTypes(4);
+    compy.ptr2Computer->changeNumOperatorTypes(9);
 
-    GuitarRoom guitarAndPedal;
-    guitarAndPedal.modifyPickups(3);
-    guitarAndPedal.turnRatioKnob(6);
+    GuitarRoomWrapper guitarAndPedal ( new GuitarRoom () );
+    guitarAndPedal.ptr2GuitarRoom->modifyPickups(3);
+    guitarAndPedal.ptr2GuitarRoom->turnRatioKnob(6);
 
     //std::cout statements to replicate
     std::cout << "\ncout statements to replicate: " << std::endl;
 
-    std::cout << "New number of data types: " << compy.language1.numDataTypes << std::endl;
+    std::cout << "New number of data types: " << compy.ptr2Computer->language1.numDataTypes << std::endl;
 
-    std::cout << "New number of operator types: " << compy.language1.numOperatorTypes << std::endl;
+    std::cout << "New number of operator types: " << compy.ptr2Computer->language1.numOperatorTypes << std::endl;
 
-    std::cout << "New number of guitar Pickups: " << guitarAndPedal.eGuitar.numPickUps << std::endl;
+    std::cout << "New number of guitar Pickups: " << guitarAndPedal.ptr2GuitarRoom->eGuitar.numPickUps << std::endl;
 
-    std::cout << "New compression ratio: " << guitarAndPedal.guitarPedal.initRatio << std::endl;
+    std::cout << "New compression ratio: " << guitarAndPedal.ptr2GuitarRoom->guitarPedal.initRatio << std::endl;
 
     //replications with this
     std::cout <<  "\nstatement replications using this->: " << std::endl;
 
-    compy.changeNumDataTypesThis(4);
-    compy.changeNumOperatorTypesThis(9);
+    compy.ptr2Computer->changeNumDataTypesThis(4);
+    compy.ptr2Computer->changeNumOperatorTypesThis(9);
 
-    guitarAndPedal.modifyPickupsThis(3);
-    guitarAndPedal.turnRatioKnobThis(6);
+    guitarAndPedal.ptr2GuitarRoom->modifyPickupsThis(3);
+    guitarAndPedal.ptr2GuitarRoom->turnRatioKnobThis(6);
 
     std::cout << std::endl;
 
