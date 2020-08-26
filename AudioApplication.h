@@ -1,3 +1,4 @@
+#pragma once
 struct AudioApplication
 {
     float initRatio = 5.5f;

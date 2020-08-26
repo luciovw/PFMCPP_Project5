@@ -13,15 +13,12 @@ AudioApplication::~AudioApplication()
 
 float AudioApplication::compress(float input, float ratio, float threshold)
 {
-    if (input>threshold)
+    if (input > threshold)
     {
         std::cout << "Signal Compressed" << std::endl;
-        return input * (0.1f*ratio);
-    } 
-    else
-    {
-        return input;
+        return input * (0.1f * ratio);
     }
+        return input;
 }
 
 float AudioApplication::reverberate(float input, float roomSize)
